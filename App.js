@@ -1,6 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Image, Text, TouchableOpacity, TextInput, ImageBackground } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import * as Font from 'expo-font';
+
+const customFonts = {
+  'K2D-Bold': require('./assets/fonts/K2D-Bold.ttf'),
+  'K2D-Medium': require('./assets/fonts/K2D-Medium.ttf'),
+  'K2D-Light': require('./assets/fonts/K2D-Light.ttf'),
+};
+
+export default function App() {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  async function loadFonts() {
+    await Font.loadAsync(customFonts);
+    setFontsLoaded(true);
+  }
+
+  useEffect(() => {
+    loadFonts();
+  }, []);
+
+  if (!fontsLoaded) {
+    return <View />;
+  }
+
+  return <PlayerStatsEditor />;
+}
 
 const PlayerStatsEditor = () => {
   const [playerImage, setPlayerImage] = useState(null);
@@ -153,10 +179,12 @@ const styles = StyleSheet.create({
   },
   averageRating: {
     fontSize: 44,
+    fontFamily: 'K2D-Medium',
   },
   playerLastNameInput: {
     fontSize: 24,
     marginBottom: 10,
+    fontFamily: 'K2D-Medium',
   },
   statsContainer: {
     flexDirection: 'row',
@@ -169,6 +197,7 @@ const styles = StyleSheet.create({
   stat: {
     marginVertical: 5,
     fontSize: 22,
+    fontFamily: 'K2D-Medium',
   },
   selector: {
     flexDirection: 'row',
@@ -204,4 +233,3 @@ const styles = StyleSheet.create({
   }
 });
 
-export default PlayerStatsEditor;
