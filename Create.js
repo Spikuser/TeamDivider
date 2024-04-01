@@ -58,12 +58,12 @@ const PlayerStatsEditor = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.card}>
       <ImageBackground
-          source={require('./assets/create/group-3.png')}
-          style={styles.cardBackground}
-          imageStyle={styles.cardBackgroundImage}
-        >
+        source={require('./assets/select/group-3.jpg')}
+        style={styles.cardBackground}
+        imageStyle={styles.cardBackgroundImage}
+      >
+      <View style={styles.card}>
         <TouchableOpacity onPress={pickImage}>
           <Image source={playerImage ? { uri: playerImage } : require('./assets/create/player.jpg')} style={styles.playerImage} />
         </TouchableOpacity>
@@ -90,8 +90,8 @@ const PlayerStatsEditor = () => {
             ))}
           </View>
         </View>
-      </ImageBackground>
       </View>
+      </ImageBackground>
       {selectedStat && (
         <View style={styles.selector}>
           <Text style={getSelectorTextStyle(stats[selectedStat] - 1)}>{stats[selectedStat] > 20 ? stats[selectedStat] - 1 : ' '}</Text>
@@ -126,36 +126,38 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
-    padding: 20,
-  },
-  card: {
-    width: '100%',
-    height: '60%',
-    backgroundColor: 'transparent',
+    backgroundColor: 'white',
   },
   cardBackground: {
     width: '100%', 
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    overflow: 'hidden',
   },
   cardBackgroundImage: {
     resizeMode: 'cover',
   },
+  card: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#000',
+    borderRadius: 25,
+    padding: 20,
+    width: '70%',
+    backgroundColor: 'transparent',
+  },
   playerImage: {
-    width: 150,
-    height: 150,
-    borderRadius: 100,
-    overflow: 'hidden',
-    paddingBottom: 50,
+    width: 100,
+    height: 100,
+    borderRadius: 50,
   },
   averageRating: {
-    fontSize: 44,
+    padding: 10,
+    fontSize: 26,
   },
   playerLastNameInput: {
-    fontSize: 24,
+    fontSize: 22,
     marginBottom: 10,
   },
   statsContainer: {
@@ -178,20 +180,20 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#000',
     borderRadius: 25,
-    width: '90%',
-    height: 120,
+    width: '70%',
+    height: 100,
   },
   selectorText: {
     fontSize: 24,
     marginHorizontal: 10,
   },
   selectorTextMax: {
-    fontSize: 26,
+    fontSize: 24,
     marginHorizontal: 10,
     color: '#AAAAAA',
   },
   selectorTextMin: {
-    fontSize: 26,
+    fontSize: 24,
     marginHorizontal: 10,
     color: '#AAAAAA',
   },
