@@ -1,6 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Image, Text, TouchableOpacity, TextInput, ImageBackground } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import * as Font from 'expo-font';
+
+const customFonts = {
+  'K2D-Bold': require('./assets/fonts/K2D-Bold.ttf'),
+  'K2D-Medium': require('./assets/fonts/K2D-Medium.ttf'),
+  'K2D-Light': require('./assets/fonts/K2D-Light.ttf'),
+};
+
+export default function App() {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  async function loadFonts() {
+    await Font.loadAsync(customFonts);
+    setFontsLoaded(true);
+  }
+
+  useEffect(() => {
+    loadFonts();
+  }, []);
+
+  if (!fontsLoaded) {
+    return <View />;
+  }
+
+  return <PlayerStatsEditor />;
+}
 
 const PlayerStatsEditor = () => {
   const [playerImage, setPlayerImage] = useState(null);
@@ -58,12 +84,12 @@ const PlayerStatsEditor = () => {
 
   return (
     <View style={styles.container}>
-      <ImageBackground
-        source={require('./assets/select/group-3.jpg')}
-        style={styles.cardBackground}
-        imageStyle={styles.cardBackgroundImage}
-      >
       <View style={styles.card}>
+      <ImageBackground
+          source={require('./assets/create/group-3.png')}
+          style={styles.cardBackground}
+          imageStyle={styles.cardBackgroundImage}
+        >
         <TouchableOpacity onPress={pickImage}>
           <Image source={playerImage ? { uri: playerImage } : require('./assets/create/player.jpg')} style={styles.playerImage} />
         </TouchableOpacity>
@@ -90,8 +116,8 @@ const PlayerStatsEditor = () => {
             ))}
           </View>
         </View>
-      </View>
       </ImageBackground>
+      </View>
       {selectedStat && (
         <View style={styles.selector}>
           <Text style={getSelectorTextStyle(stats[selectedStat] - 1)}>{stats[selectedStat] > 20 ? stats[selectedStat] - 1 : ' '}</Text>
@@ -126,39 +152,41 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
+    padding: 20,
+  },
+  card: {
+    width: '100%',
+    height: '60%',
+    backgroundColor: 'transparent',
   },
   cardBackground: {
     width: '100%', 
     height: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'top',
+    overflow: 'hidden',
   },
   cardBackgroundImage: {
     resizeMode: 'cover',
   },
-  card: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: '#000',
-    borderRadius: 25,
-    padding: 20,
-    width: '70%',
-    backgroundColor: 'transparent',
-  },
   playerImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 150,
+    height: 150,
+    borderRadius: 100,
+    overflow: 'hidden',
+    paddingBottom: 50,
+    marginTop: 20,
+    marginBottom: 10,
   },
   averageRating: {
-    padding: 10,
-    fontSize: 26,
+    fontSize: 44,
+    fontFamily: 'K2D-Medium',
   },
   playerLastNameInput: {
-    fontSize: 22,
+    fontSize: 24,
     marginBottom: 10,
+    fontFamily: 'K2D-Medium',
   },
   statsContainer: {
     flexDirection: 'row',
@@ -170,30 +198,33 @@ const styles = StyleSheet.create({
   },
   stat: {
     marginVertical: 5,
-    fontSize: 22,
+    fontSize: 28,
+    fontFamily: 'K2D-Medium',
   },
   selector: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 20,
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: '#000',
     borderRadius: 25,
-    width: '70%',
-    height: 100,
+    width: '90%',
+    height: 120,
   },
   selectorText: {
-    fontSize: 24,
+    fontSize: 30,
     marginHorizontal: 10,
+    fontFamily: 'K2D-Medium',
   },
   selectorTextMax: {
-    fontSize: 24,
+    fontSize: 28,
     marginHorizontal: 10,
     color: '#AAAAAA',
+    fontFamily: 'K2D-Medium',
   },
   selectorTextMin: {
-    fontSize: 24,
+    fontSize: 26,
     marginHorizontal: 10,
     color: '#AAAAAA',
   },
@@ -205,5 +236,3 @@ const styles = StyleSheet.create({
     fontSize: 26,
   }
 });
-
-export default PlayerStatsEditor;
